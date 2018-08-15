@@ -145,8 +145,12 @@ function obj:activate(idList, trayColor, showKeys)
         local cres = cscreen:fullFrame()
         local lcres = cscreen:absoluteToLocal(cres)
         obj.modal_tray:frame(cscreen:localToAbsolute{
-            x = cres.w - 40,
-            y = cres.h - 40,
+            -- x = cres.w - 40,
+            -- y = cres.h - 40,
+            -- w = 20,
+            -- h = 20
+            x = 300,
+            y = 300,
             w = 20,
             h = 20
         })
