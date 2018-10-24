@@ -106,7 +106,7 @@ if string.len(hsappM_keys[2]) > 0 then
     spoon.ModalMgr.supervisor:bind(hsappM_keys[1], hsappM_keys[2], "Enter AppM Environment", function()
         spoon.ModalMgr:deactivateAll()
         -- Show the keybindings cheatsheet once appM is activated
-        spoon.ModalMgr:activate({"appM"}, "#FFBD2E", true)
+        spoon.ModalMgr:activate({"appM"}, "#FFBD2E", false)
     end)
 end
 
@@ -205,14 +205,14 @@ end
 
 ----------------------------------------------------------------------------------------------------
 -- Register Hammerspoon API manual: Open Hammerspoon manual in default browser
-hsman_keys = hsman_keys or {"alt", "H"}
-if string.len(hsman_keys[2]) > 0 then
-    spoon.ModalMgr.supervisor:bind(hsman_keys[1], hsman_keys[2], "Read Hammerspoon Manual", function()
-        hs.doc.hsdocs.forceExternalBrowser(true)
-        hs.doc.hsdocs.moduleEntitiesInSidebar(true)
-        hs.doc.hsdocs.help()
-    end)
-end
+-- hsman_keys = hsman_keys or {"alt", "H"}
+-- if string.len(hsman_keys[2]) > 0 then
+--     spoon.ModalMgr.supervisor:bind(hsman_keys[1], hsman_keys[2], "Read Hammerspoon Manual", function()
+--         hs.doc.hsdocs.forceExternalBrowser(true)
+--         hs.doc.hsdocs.moduleEntitiesInSidebar(true)
+--         hs.doc.hsdocs.help()
+--     end)
+-- end
 
 ----------------------------------------------------------------------------------------------------
 -- countdownM modal environment
@@ -242,24 +242,24 @@ if spoon.CountDown then
     end)
 
     -- Register countdownM with modal supervisor
-    hscountdM_keys = hscountdM_keys or {"alt", "I"}
-    if string.len(hscountdM_keys[2]) > 0 then
-        spoon.ModalMgr.supervisor:bind(hscountdM_keys[1], hscountdM_keys[2], "Enter countdownM Environment", function()
-            spoon.ModalMgr:deactivateAll()
-            -- Show the keybindings cheatsheet once countdownM is activated
-            spoon.ModalMgr:activate({"countdownM"}, "#FF6347", true)
-        end)
-    end
+    -- hscountdM_keys = hscountdM_keys or {"alt", "I"}
+    -- if string.len(hscountdM_keys[2]) > 0 then
+    --     spoon.ModalMgr.supervisor:bind(hscountdM_keys[1], hscountdM_keys[2], "Enter countdownM Environment", function()
+    --         spoon.ModalMgr:deactivateAll()
+    --         -- Show the keybindings cheatsheet once countdownM is activated
+    --         spoon.ModalMgr:activate({"countdownM"}, "#FF6347", true)
+    --     end)
+    -- end
 end
 
 ----------------------------------------------------------------------------------------------------
 -- Register lock screen
-hslock_keys = hslock_keys or {"alt", "L"}
-if string.len(hslock_keys[2]) > 0 then
-    spoon.ModalMgr.supervisor:bind(hslock_keys[1], hslock_keys[2], "Lock Screen", function()
-        hs.caffeinate.lockScreen()
-    end)
-end
+-- hslock_keys = hslock_keys or {"alt", "L"}
+-- if string.len(hslock_keys[2]) > 0 then
+--     spoon.ModalMgr.supervisor:bind(hslock_keys[1], hslock_keys[2], "Lock Screen", function()
+--         hs.caffeinate.lockScreen()
+--     end)
+-- end
 
 ----------------------------------------------------------------------------------------------------
 -- resizeM modal environment

@@ -26,7 +26,7 @@
     "doc" : "Modal keybindings environment management. Just an wrapper of `hs.hotkey.modal`.\n\nDownload: [https:\/\/github.com\/Hammerspoon\/Spoons\/raw\/master\/Spoons\/ModalMgr.spoon.zip](https:\/\/github.com\/Hammerspoon\/Spoons\/raw\/master\/Spoons\/ModalMgr.spoon.zip)",
     "Method" : [
       {
-        "desc" : "Create a new modal keybindings environment",
+        "def" : "ModalMgr:new(id)",
         "stripped_doc" : [
           "Create a new modal keybindings environment",
           ""
@@ -43,11 +43,11 @@
         "returns" : [
 
         ],
-        "def" : "ModalMgr:new(id)",
-        "name" : "new"
+        "name" : "new",
+        "desc" : "Create a new modal keybindings environment"
       },
       {
-        "desc" : "Toggle the cheatsheet display of current modal environments's keybindings.",
+        "def" : "ModalMgr:toggleCheatsheet([idList], [force])",
         "stripped_doc" : [
           "Toggle the cheatsheet display of current modal environments's keybindings.",
           ""
@@ -65,11 +65,11 @@
         "returns" : [
 
         ],
-        "def" : "ModalMgr:toggleCheatsheet([idList], [force])",
-        "name" : "toggleCheatsheet"
+        "name" : "toggleCheatsheet",
+        "desc" : "Toggle the cheatsheet display of current modal environments's keybindings."
       },
       {
-        "desc" : "Activate all modal environment in `idList`.",
+        "def" : "ModalMgr:activate(idList, [trayColor], [showKeys])",
         "stripped_doc" : [
           "Activate all modal environment in `idList`.",
           ""
@@ -88,11 +88,11 @@
         "returns" : [
 
         ],
-        "def" : "ModalMgr:activate(idList, [trayColor], [showKeys])",
-        "name" : "activate"
+        "name" : "activate",
+        "desc" : "Activate all modal environment in `idList`."
       },
       {
-        "desc" : "Deactivate modal environments in `idList`.",
+        "def" : "ModalMgr:deactivate(idList)",
         "stripped_doc" : [
           "Deactivate modal environments in `idList`.",
           ""
@@ -109,11 +109,11 @@
         "returns" : [
 
         ],
-        "def" : "ModalMgr:deactivate(idList)",
-        "name" : "deactivate"
+        "name" : "deactivate",
+        "desc" : "Deactivate modal environments in `idList`."
       },
       {
-        "desc" : "Deactivate all active modal environments.",
+        "def" : "ModalMgr:deactivateAll()",
         "stripped_doc" : [
           "Deactivate all active modal environments."
         ],
@@ -129,19 +129,16 @@
         "returns" : [
 
         ],
-        "def" : "ModalMgr:deactivateAll()",
-        "name" : "deactivateAll"
+        "name" : "deactivateAll",
+        "desc" : "Deactivate all active modal environments."
       }
     ],
     "Command" : [
 
     ],
-    "Field" : [
-
-    ],
     "items" : [
       {
-        "desc" : "Activate all modal environment in `idList`.",
+        "def" : "ModalMgr:activate(idList, [trayColor], [showKeys])",
         "stripped_doc" : [
           "Activate all modal environment in `idList`.",
           ""
@@ -160,11 +157,11 @@
         "returns" : [
 
         ],
-        "def" : "ModalMgr:activate(idList, [trayColor], [showKeys])",
-        "name" : "activate"
+        "name" : "activate",
+        "desc" : "Activate all modal environment in `idList`."
       },
       {
-        "desc" : "Deactivate modal environments in `idList`.",
+        "def" : "ModalMgr:deactivate(idList)",
         "stripped_doc" : [
           "Deactivate modal environments in `idList`.",
           ""
@@ -181,11 +178,11 @@
         "returns" : [
 
         ],
-        "def" : "ModalMgr:deactivate(idList)",
-        "name" : "deactivate"
+        "name" : "deactivate",
+        "desc" : "Deactivate modal environments in `idList`."
       },
       {
-        "desc" : "Deactivate all active modal environments.",
+        "def" : "ModalMgr:deactivateAll()",
         "stripped_doc" : [
           "Deactivate all active modal environments."
         ],
@@ -201,11 +198,11 @@
         "returns" : [
 
         ],
-        "def" : "ModalMgr:deactivateAll()",
-        "name" : "deactivateAll"
+        "name" : "deactivateAll",
+        "desc" : "Deactivate all active modal environments."
       },
       {
-        "desc" : "Create a new modal keybindings environment",
+        "def" : "ModalMgr:new(id)",
         "stripped_doc" : [
           "Create a new modal keybindings environment",
           ""
@@ -222,11 +219,11 @@
         "returns" : [
 
         ],
-        "def" : "ModalMgr:new(id)",
-        "name" : "new"
+        "name" : "new",
+        "desc" : "Create a new modal keybindings environment"
       },
       {
-        "desc" : "Toggle the cheatsheet display of current modal environments's keybindings.",
+        "def" : "ModalMgr:toggleCheatsheet([idList], [force])",
         "stripped_doc" : [
           "Toggle the cheatsheet display of current modal environments's keybindings.",
           ""
@@ -244,9 +241,12 @@
         "returns" : [
 
         ],
-        "def" : "ModalMgr:toggleCheatsheet([idList], [force])",
-        "name" : "toggleCheatsheet"
+        "name" : "toggleCheatsheet",
+        "desc" : "Toggle the cheatsheet display of current modal environments's keybindings."
       }
+    ],
+    "Field" : [
+
     ],
     "name" : "ModalMgr"
   }
