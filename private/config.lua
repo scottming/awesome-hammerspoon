@@ -22,23 +22,19 @@ hspoon_list = {
 hsapp_list = {
     {key = 'f', name = 'Finder'},
     {key = '1', name = 'iTerm'},
-    {key = "P", name = "PyCharm"},
+    {key = 'k', name = 'Slack'},
     {key = "V", name = "Visual Studio Code"},
     {key = "E", name = "EuDic"},
     {key = "S", name = "Sublime Text"},
     {key = "C", id = "com.google.Chrome"},
-    {key = "M", name = "Emacs"},
     {key = "W", name = 'WeChat'},
     {key = "I", name = "IntelliJ IDEA"},
-    {key = 'o', name = 'Firefox'},
+    {key = 'o', name = 'Onivim2'},
     {key = "B", name = "Bear"},
-    {key = "G", name = "GraphiQL"},
-    -- {key = 'A', name = 'Atom'},
-    -- {key = "M", name = "PyCharm"},
-    -- {key = "M", name = "TextMate"},
-    -- {key = "P", name = "PDF Expert"},
-    -- {key = 'y', name = 'System Preferences'},
-    -- {key = 'g', name = 'GoLand'},
+    {key = "G", name = "Grammarly Editor"},
+    {key = 'D', name = 'DataGrip'},
+    {key = "P", name = "PDF Expert"},
+    {key = "L", name = "DeepL"},
 }
 
 -- Modal supervisor keybinding, which can be used to temporarily disable ALL modal environments.
@@ -68,9 +64,7 @@ show_resize_tips = false
 -- bind app
 local app_map = {
     ["1"] = "iTerm",
-    ["2"] = "Google Chrome",
-    ["3"] = "PyCharm",
-    ["4"] = "Emacs",
+    ["2"] = "Dash",
 }
 
 local function bind_app()
@@ -104,15 +98,10 @@ local function set_app_input_method(app_name, set_input_method_function, event)
 end
 
 set_app_input_method('Alfred', English, hs.window.filter.windowCreated)
-set_app_input_method('Emacs', English)
 -- set_app_input_method('iTerm2', English)
--- set_app_input_method('Code', English)
+set_app_input_method('Code', English)
 set_app_input_method('Google Chrome', English)
 set_app_input_method('Sublime Text', English)
-set_app_input_method('Postico', English)
-set_app_input_method('IntelliJ IDEA', English)
-set_app_input_method('PyCharm', English)
-set_app_input_method('GoLand', English)
 
 
 hs.hotkey.bind({'ctrl', 'cmd'}, ".", function()
