@@ -21,7 +21,7 @@ hspoon_list = {
 -- appM environment keybindings. Bundle `id` is prefered, but application `name` will be ok.
 hsapp_list = {
     {key = 'f', name = 'Finder'},
-    {key = '1', name = 'iTerm'},
+    {key = '3', name = 'iTerm'},
     {key = 'k', name = 'Slack'},
     {key = "V", name = "Visual Studio Code"},
     {key = "E", name = "EuDic"},
@@ -63,8 +63,9 @@ show_resize_tips = false
 
 -- bind app
 local app_map = {
-    ["1"] = "iTerm",
+    ["1"] = "Alacritty",
     ["2"] = "Dash",
+    ["3"] = "iTerm",
 }
 
 local function bind_app()
