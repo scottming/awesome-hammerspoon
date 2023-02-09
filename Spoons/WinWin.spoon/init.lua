@@ -129,41 +129,55 @@ end
 ---  * option - A string specifying the option, valid strings are: `halfleft`, `halfright`, `halfup`, `halfdown`, `cornerNW`, `cornerSW`, `cornerNE`, `cornerSE`, `center`, `fullscreen`, `expand`, `shrink`.
 
 function obj:moveAndResize(option)
-    local cwin = hs.window.focusedWindow()
-    if cwin then
-        local cscreen = cwin:screen()
-        local cres = cscreen:fullFrame()
-        local stepw = cres.w/obj.gridparts
-        local steph = cres.h/obj.gridparts
-        local wf = cwin:frame()
-        if option == "halfleft" then
-            cwin:setFrame({x=cres.x, y=cres.y, w=cres.w/2, h=cres.h})
-        elseif option == "halfright" then
-            cwin:setFrame({x=cres.x+cres.w/2, y=cres.y, w=cres.w/2, h=cres.h})
-        elseif option == "halfup" then
-            cwin:setFrame({x=cres.x, y=cres.y, w=cres.w, h=cres.h/2})
-        elseif option == "halfdown" then
-            cwin:setFrame({x=cres.x, y=cres.y+cres.h/2, w=cres.w, h=cres.h/2})
-        elseif option == "cornerNW" then
-            cwin:setFrame({x=cres.x, y=cres.y, w=cres.w/2, h=cres.h/2})
-        elseif option == "cornerNE" then
-            cwin:setFrame({x=cres.x+cres.w/2, y=cres.y, w=cres.w/2, h=cres.h/2})
-        elseif option == "cornerSW" then
-            cwin:setFrame({x=cres.x, y=cres.y+cres.h/2, w=cres.w/2, h=cres.h/2})
-        elseif option == "cornerSE" then
-            cwin:setFrame({x=cres.x+cres.w/2, y=cres.y+cres.h/2, w=cres.w/2, h=cres.h/2})
-        elseif option == "fullscreen" then
-            cwin:setFrame({x=cres.x, y=cres.y, w=cres.w, h=cres.h})
-        elseif option == "center" then
-            cwin:centerOnScreen()
-        elseif option == "expand" then
-            cwin:setFrame({x=wf.x-stepw, y=wf.y-steph, w=wf.w+(stepw*2), h=wf.h+(steph*2)})
-        elseif option == "shrink" then
-            cwin:setFrame({x=wf.x+stepw, y=wf.y+steph, w=wf.w-(stepw*2), h=wf.h-(steph*2)})
-        end
-    else
-        hs.alert.show("No focused window!")
-    end
+	local cwin = hs.window.focusedWindow()
+	-- fix movement issue caused by grammarly start
+	local axApp = hs.axuielement.applicationElement(cwin:application())
+	local wasEnhanced = axApp.AXEnhancedUserInterface
+	if wasEnhanced then
+		axApp.AXEnhancedUserInterface = false
+	end
+	-- fix movement issue caused by grammarly end
+
+	if cwin then
+		local cscreen = cwin:screen()
+		local cres = cscreen:fullFrame()
+		local stepw = cres.w / obj.gridparts
+		local steph = cres.h / obj.gridparts
+		local wf = cwin:frame()
+		if option == "halfleft" then
+			cwin:setFrame({ x = cres.x, y = cres.y, w = cres.w / 2, h = cres.h })
+		elseif option == "halfright" then
+			cwin:setFrame({ x = cres.x + cres.w / 2, y = cres.y, w = cres.w / 2, h = cres.h })
+		elseif option == "halfup" then
+			cwin:setFrame({ x = cres.x, y = cres.y, w = cres.w, h = cres.h / 2 })
+		elseif option == "halfdown" then
+			cwin:setFrame({ x = cres.x, y = cres.y + cres.h / 2, w = cres.w, h = cres.h / 2 })
+		elseif option == "cornerNW" then
+			cwin:setFrame({ x = cres.x, y = cres.y, w = cres.w / 2, h = cres.h / 2 })
+		elseif option == "cornerNE" then
+			cwin:setFrame({ x = cres.x + cres.w / 2, y = cres.y, w = cres.w / 2, h = cres.h / 2 })
+		elseif option == "cornerSW" then
+			cwin:setFrame({ x = cres.x, y = cres.y + cres.h / 2, w = cres.w / 2, h = cres.h / 2 })
+		elseif option == "cornerSE" then
+			cwin:setFrame({ x = cres.x + cres.w / 2, y = cres.y + cres.h / 2, w = cres.w / 2, h = cres.h / 2 })
+		elseif option == "fullscreen" then
+			cwin:setFrame({ x = cres.x, y = cres.y, w = cres.w, h = cres.h })
+		elseif option == "center" then
+			cwin:centerOnScreen()
+		elseif option == "expand" then
+			cwin:setFrame({ x = wf.x - stepw, y = wf.y - steph, w = wf.w + (stepw * 2), h = wf.h + (steph * 2) })
+		elseif option == "shrink" then
+			cwin:setFrame({ x = wf.x + stepw, y = wf.y + steph, w = wf.w - (stepw * 2), h = wf.h - (steph * 2) })
+		end
+	else
+		hs.alert.show("No focused window!")
+	end
+
+	-- fix movement issue caused by grammarly start
+	if wasEnhanced then
+		axApp.AXEnhancedUserInterface = true
+	end
+	-- fix movement issue caused by grammarly end
 end
 
 --- WinWin:moveToScreen(direction)

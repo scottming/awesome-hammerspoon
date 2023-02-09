@@ -92,4 +92,4 @@ hsaclock_keys = {"alt", "T"}
 hstype_keys = {"alt", "V"}
 
 -- Toggle Hammerspoon console
-hsconsole_keys = {"alt", "Z"}
+-- hsconsole_keys = {"alt", "Z"}
