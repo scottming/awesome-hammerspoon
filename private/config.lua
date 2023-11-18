@@ -37,9 +37,9 @@ hsapp_list = {
 	{ key = "L", name = "DeepL" },
 	{ key = "D", name = "DEVONthink 3" },
 	-- {key = "M", name = "Postman"},
-	--[[ { key = "O", name = "RStudio" }, ]]
+	{ key = "o", name = "Poe" },
 	{ key = "B", name = "Bear" },
-	{ key = "O", name = "Logseq" },
+	-- { key = "O", name = "Logseq" },
 }
 
 -- Modal supervisor keybinding, which can be used to temporarily disable ALL modal environments.
@@ -84,31 +84,51 @@ end
 
 -- auto switch input method
 
---[[ local function Chinese() ]]
---[[ 	hs.keycodes.currentSourceID("com.sogou.inputmethod.sogou.pinyin") ]]
---[[ end ]]
-
 local function Chinese()
-	hs.keycodes.currentSourceID("com.sogou.inputmethod.sogou.pinyin")
+	return "com.sogou.inputmethod.sogou.pinyin"
 end
 
 local function English()
-	hs.keycodes.currentSourceID("com.apple.keylayout.US")
+	return "com.apple.keylayout.US"
 end
 
-local function set_app_input_method(app_name, set_input_method_function, event)
-	event = event or hs.window.filter.windowFocused
+local appWithInputMethods = {
+	{ "Alfred", English },
+	{ "WeChat", Chinese },
+	{ "Code", English },
+	{ "Google Chrome", English },
+	{ "Sublime Text", English },
+	{ "Alacritty", English },
+}
 
-	hs.window.filter.new(app_name):subscribe(event, function()
-		set_input_method_function()
-	end)
+-- https://gist.github.com/ibreathebsb/65fae9d742c5ebdb409960bceaf934de
+local function maybeUpdateFocusesInputMethod()
+	-- local ime = English()
+	local ime
+	local focusedApp = hs.window.focusedWindow():application():name()
+	for _, app in pairs(appWithInputMethods) do
+		local appName = app[1]
+		local expectedIme = app[2]
+
+		if focusedApp == appName then
+			ime = expectedIme()
+			break
+		end
+	end
+
+	if ime ~= nil and hs.keycodes.currentSourceID() ~= ime then
+		hs.keycodes.currentSourceID(ime)
+	end
 end
 
-set_app_input_method("Alfred", English, hs.window.filter.windowCreated)
-set_app_input_method("Code", English)
-set_app_input_method("Google Chrome", English)
-set_app_input_method("Sublime Text", English)
-set_app_input_method("Alacritty", English)
+local function applicationWatcher(_appName, eventType, appObject)
+	if eventType == hs.application.watcher.activated or eventType == hs.application.watcher.launched then
+		maybeUpdateFocusesInputMethod()
+	end
+end
+
+appWatcher = hs.application.watcher.new(applicationWatcher)
+appWatcher:start()
 
 hs.hotkey.bind({ "ctrl", "cmd" }, ".", function()
 	hs.alert.show(
