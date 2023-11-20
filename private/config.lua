@@ -27,7 +27,8 @@ hsapp_list = {
 	{ key = "E", name = "EuDic" },
 	{ key = "S", name = "Sublime Text" },
 	{ key = "C", id = "com.google.Chrome" },
-	{ key = "W", name = "WeChat" },
+	-- { key = "W", name = "WeChat" },
+	{ key = "W", name = "Warp" },
 	{ key = "I", name = "IntelliJ IDEA" },
 	-- { key = "B", name = "Bear" },
 	{ key = "N", name = "Logseq" },
@@ -93,12 +94,14 @@ local function English()
 end
 
 local appWithInputMethods = {
-	{ "Alfred", English },
 	{ "WeChat", Chinese },
+	{ "Bear", Chinese },
+	{ "Alfred", English },
 	{ "Code", English },
 	{ "Google Chrome", English },
 	{ "Sublime Text", English },
 	{ "Alacritty", English },
+	{ "Dash", English },
 }
 
 -- https://gist.github.com/ibreathebsb/65fae9d742c5ebdb409960bceaf934de
