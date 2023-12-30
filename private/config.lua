@@ -27,8 +27,8 @@ hsapp_list = {
 	{ key = "E", name = "EuDic" },
 	{ key = "S", name = "Sublime Text" },
 	{ key = "C", id = "com.google.Chrome" },
-	-- { key = "W", name = "WeChat" },
-	{ key = "W", name = "Warp" },
+	{ key = "W", name = "WeChat" },
+	-- { key = "W", name = "Warp" },
 	{ key = "I", name = "IntelliJ IDEA" },
 	-- { key = "B", name = "Bear" },
 	{ key = "N", name = "Logseq" },
@@ -83,6 +83,8 @@ local function bind_app()
 	end
 end
 
+bind_app()
+
 -- auto switch input method
 
 local function Chinese()
@@ -124,6 +126,27 @@ local function maybeUpdateFocusesInputMethod()
 	end
 end
 
+-- local wf = hs.window.filter
+-- wf = hs.window.filter
+-- wf.ignoreAlways["Safari Web Content"] = true
+-- wf.ignoreAlways["com.apple.WebKit.WebContent"] = true
+-- wf.ignoreAlways["PaymentAuthorizationUIExtension (Safari)"] = true
+-- wf.ignoreAlways["com.apple.PassKit.PaymentAuthorizationUIExtension"] = true
+--
+-- local function maybeUpdateIMtoEnglishWhenSmallWindow(appName)
+-- 	local wfApp = wf.new(false):setAppFilter(appName)
+-- 	wfApp:subscribe(wf.windowFocused, function()
+-- 		local winSize = hs.window.focusedWindow():size()
+-- 		if winSize.h < 100 then
+-- 			hs.keycodes.currentSourceID(English())
+-- 		else
+-- 			maybeUpdateFocusesInputMethod()
+-- 		end
+-- 	end)
+-- end
+-- pretty slow, because of `com.apple.WebKit.WebContent`
+-- maybeUpdateIMtoEnglishWhenSmallWindow("Bear")
+
 local function applicationWatcher(_appName, eventType, appObject)
 	if eventType == hs.application.watcher.activated or eventType == hs.application.watcher.launched then
 		maybeUpdateFocusesInputMethod()
@@ -146,5 +169,4 @@ hs.hotkey.bind({ "ctrl", "cmd" }, ".", function()
 	)
 end)
 
-bind_app()
 hs.alert.show("Hammerspoon, at your service", 3)
