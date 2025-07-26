@@ -26,22 +26,6 @@ local function isValidKey(keys)
 	return keys and #keys >= 2 and string.len(keys[2]) > 0
 end
 
-local function bindHotkey(keys, description, action)
-	if isValidKey(keys) then
-		hs.hotkey.bind(keys[1], keys[2], description, action)
-	end
-end
-
-local function createKeyAction(spoon, method, args)
-	return function()
-		if args then
-			spoon[method](spoon, table.unpack(args))
-		else
-			spoon[method](spoon)
-		end
-	end
-end
-
 -- Modal environment factory
 local function createModal(name, bindings, config)
 	config = config or {}
@@ -129,6 +113,25 @@ local function createCountdownAction(minutes)
 	return function()
 		spoon.CountDown:startFor(minutes)
 		spoon.ModalMgr:deactivate({ "countdownM" })
+	end
+end
+
+-- Custom window layout factory
+local function createCustomLayoutAction(xRatio, yRatio, widthRatio, heightRatio)
+	return function()
+		spoon.WinWin:stash()
+		local win = hs.window.focusedWindow()
+		if win and win:isStandard() then
+			local screen = win:screen()
+			local frame = screen:frame()
+			local newFrame = {
+				x = frame.x + frame.w * xRatio,
+				y = frame.y + frame.h * yRatio,
+				w = frame.w * widthRatio,
+				h = frame.h * heightRatio,
+			}
+			win:setFrame(newFrame)
+		end
 	end
 end
 
@@ -284,6 +287,8 @@ local function setupWindowModal()
 		{ key = "L", desc = "Righthalf of Screen", action = createWindowAction("layout", "halfright") },
 		{ key = "K", desc = "Uphalf of Screen", action = createWindowAction("layout", "halfup") },
 		{ key = "J", desc = "Downhalf of Screen", action = createWindowAction("layout", "halfdown") },
+		{ key = "X", desc = "Left Two Thirds", action = createCustomLayoutAction(0, 0, 2 / 3, 1) },
+		{ key = "/", desc = "Right One Third", action = createCustomLayoutAction(2 / 3, 0, 1 / 3, 1) },
 
 		-- Corners
 		{ key = "Y", desc = "NorthWest Corner", action = createWindowAction("layout", "cornerNW") },
