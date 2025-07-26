@@ -1,27 +1,13 @@
 -- private/config.lua
 -- Specify Spoons which will be loaded
 hspoon_list = {
-	-- "AClock",
-	-- "BingDaily",
-	-- "Calendar",
-	-- "CircleClock",
-	-- "ClipShow",
 	"CountDown",
-	-- "FnMate",
-	-- "HCalendar",
-	-- "HSaria2",
-	-- "HSearch",
-	-- "KSheet",
-	-- "SpeedMenu",
-	-- "TimeFlow",
-	-- "UnsplashZ",
 	"WinWin",
 }
 
 -- appM environment keybindings. Bundle `id` is prefered, but application `name` will be ok.
 hsapp_list = {
 	{ key = "f", name = "Finder" },
-	{ key = "3", name = "iTerm" },
 	{ key = "k", name = "Slack" },
 	-- { key = "a", name = "Safari" },
 	-- { key = "V", name = "Visual Studio Code" },
@@ -33,7 +19,6 @@ hsapp_list = {
 	-- { key = "W", name = "WeChat" },
 	{ key = "W", name = "Ghostty" },
 	{ key = "I", name = "IntelliJ IDEA" },
-	-- { key = "B", name = "Bear" },
 	-- { key = "N", name = "Note" },
 	{ key = "G", name = "ChatGPt" },
 	{ key = "T", name = "DataGrip" },
@@ -41,10 +26,7 @@ hsapp_list = {
 	{ key = "L", name = "Obsidian" },
 	{ key = "O", name = "Poe" },
 	{ key = "D", name = "DEVONthink 3" },
-	-- {key = "M", name = "Postman"},
-	-- { key = "o", name = "Poe" },
 	{ key = "B", name = "Bear" },
-	-- { key = "O", name = "Logseq" },
 }
 
 -- Modal supervisor keybinding, which can be used to temporarily disable ALL modal environments.
@@ -100,18 +82,18 @@ local function English()
 end
 
 local appWithInputMethods = {
-	{ "WeChat", Chinese },
-	{ "Obsidian", Chinese },
-	{ "Bear", Chinese },
-	{ "Telegram", Chinese },
-	{ "Ghostty", English },
-	{ "Alfred", English },
-	{ "Code", English },
-	{ "Cursor", English },
+	{ "WeChat",        Chinese },
+	{ "Obsidian",      Chinese },
+	{ "Bear",          Chinese },
+	{ "Telegram",      Chinese },
+	{ "Ghostty",       English },
+	{ "Alfred",        English },
+	{ "Code",          English },
+	{ "Cursor",        English },
 	{ "Google Chrome", English },
-	{ "Sublime Text", English },
-	{ "Alacritty", English },
-	{ "Dash", English },
+	{ "Sublime Text",  English },
+	{ "Alacritty",     English },
+	{ "Dash",          English },
 }
 
 -- https://gist.github.com/ibreathebsb/65fae9d742c5ebdb409960bceaf934de
@@ -167,13 +149,13 @@ appWatcher:start()
 hs.hotkey.bind({ "ctrl", "cmd" }, ".", function()
 	hs.alert.show(
 		"App path:        "
-			.. hs.window.focusedWindow():application():path()
-			.. "\n"
-			.. "App name:      "
-			.. hs.window.focusedWindow():application():name()
-			.. "\n"
-			.. "IM source id:  "
-			.. hs.keycodes.currentSourceID()
+		.. hs.window.focusedWindow():application():path()
+		.. "\n"
+		.. "App name:      "
+		.. hs.window.focusedWindow():application():name()
+		.. "\n"
+		.. "IM source id:  "
+		.. hs.keycodes.currentSourceID()
 	)
 end)
 
