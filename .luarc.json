@@ -2,5 +2,9 @@
     "diagnostics.globals": [
         "vim",
         "hs"
+    ],
+    "diagnostics.disable": [
+        "undefined-global",
+        "lowercase-global"
     ]
 }

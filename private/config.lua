@@ -1,162 +1,171 @@
--- private/config.lua
--- Specify Spoons which will be loaded
-hspoon_list = {
-	"CountDown",
-	"WinWin",
+-- private/config.lua - Declarative Configuration
+
+-- Core configuration
+local config = {
+	spoons = { "CountDown", "WinWin" },
+
+	hotkeys = {
+		supervisor = { { "cmd", "shift", "ctrl" }, "Q" },
+		reload = { { "cmd", "ctrl", "alt" }, "R" },
+		help = { { "alt", "shift" }, "/" },
+		windowHints = { "", "" }, -- Disabled
+		appModal = { "alt", "A" },
+		resizeModal = { "alt", "R" },
+	},
+
+	apps = {
+		{ key = "f", name = "Finder" },
+		{ key = "k", name = "Slack" },
+		{ key = "V", name = "Cursor" },
+		{ key = "E", name = "EuDic" },
+		{ key = "S", name = "Sublime Text" },
+		{ key = "C", id = "com.google.Chrome" },
+		{ key = "A", name = "Brave Browser" },
+		{ key = "W", name = "Ghostty" },
+		{ key = "I", name = "IntelliJ IDEA" },
+		{ key = "G", name = "ChatGPt" },
+		{ key = "T", name = "DataGrip" },
+		{ key = "P", name = "PDF Expert" },
+		{ key = "L", name = "Obsidian" },
+		{ key = "O", name = "Poe" },
+		{ key = "D", name = "DEVONthink 3" },
+		{ key = "B", name = "Bear" },
+	},
+
+	quickApps = {
+		["1"] = "Alacritty",
+		["2"] = "Dash",
+		["3"] = "Logseq",
+	},
+
+	inputMethods = {
+		chinese = "com.sogou.inputmethod.sogou.pinyin",
+		english = "com.apple.keylayout.US",
+
+		mapping = {
+			WeChat = "chinese",
+			Obsidian = "chinese",
+			Bear = "chinese",
+			Telegram = "chinese",
+			Ghostty = "english",
+			Alfred = "english",
+			Code = "english",
+			Cursor = "english",
+			["Google Chrome"] = "english",
+			["Sublime Text"] = "english",
+			Alacritty = "english",
+			Dash = "english",
+		},
+	},
+
+	features = {
+		showResizeTips = false,
+		autoInputMethod = true,
+		debugInfo = true,
+	},
 }
 
--- appM environment keybindings. Bundle `id` is prefered, but application `name` will be ok.
-hsapp_list = {
-	{ key = "f", name = "Finder" },
-	{ key = "k", name = "Slack" },
-	-- { key = "a", name = "Safari" },
-	-- { key = "V", name = "Visual Studio Code" },
-	{ key = "V", name = "Cursor" },
-	{ key = "E", name = "EuDic" },
-	{ key = "S", name = "Sublime Text" },
-	{ key = "C", id = "com.google.Chrome" },
-	{ key = "A", name = "Brave Browser" },
-	-- { key = "W", name = "WeChat" },
-	{ key = "W", name = "Ghostty" },
-	{ key = "I", name = "IntelliJ IDEA" },
-	-- { key = "N", name = "Note" },
-	{ key = "G", name = "ChatGPt" },
-	{ key = "T", name = "DataGrip" },
-	{ key = "P", name = "PDF Expert" },
-	{ key = "L", name = "Obsidian" },
-	{ key = "O", name = "Poe" },
-	{ key = "D", name = "DEVONthink 3" },
-	{ key = "B", name = "Bear" },
-}
+-- Export configuration to global scope
+hspoon_list = config.spoons
+hsapp_list = config.apps
+hsupervisor_keys = config.hotkeys.supervisor
+hsreload_keys = config.hotkeys.reload
+hshelp_keys = config.hotkeys.help
+hswhints_keys = config.hotkeys.windowHints
+hsappM_keys = config.hotkeys.appModal
+hsresizeM_keys = config.hotkeys.resizeModal
+show_resize_tips = config.features.showResizeTips
 
--- Modal supervisor keybinding, which can be used to temporarily disable ALL modal environments.
-hsupervisor_keys = { { "cmd", "shift", "ctrl" }, "Q" }
-
--- Reload Hammerspoon configuration
-hsreload_keys = { { "cmd", "ctrl", "alt" }, "R" }
-
--- Toggle help panel of this configuration.
-hshelp_keys = { { "alt", "shift" }, "/" }
-
-----------------------------------------------------------------------------------------------------
--- Those keybindings below could be disabled by setting to {"", ""} or {{}, ""}
-
--- Window hints keybinding: Focuse to any window you want
--- hswhints_keys = {"alt", "tab"}
-hswhints_keys = { "", "" }
-
--- appM environment keybinding: Application Launcher
-hsappM_keys = { "alt", "A" }
-
--- resizeM environment keybinding: Windows manipulation
-hsresizeM_keys = { "alt", "R" }
-
-show_resize_tips = false
-
--- bind app
-local app_map = {
-	["1"] = "Alacritty",
-	["2"] = "Dash",
-	--[[ ["3"] = "iTerm", ]]
-	["3"] = "Logseq",
-}
-
-local function bind_app()
-	for key, app in pairs(app_map) do
+-- Application management
+local function bindQuickApps(appMap)
+	for key, appName in pairs(appMap) do
 		hs.hotkey.bind({ "alt" }, key, function()
-			hs.application.open(app)
+			hs.application.open(appName)
 		end)
 	end
 end
 
-bind_app()
-
--- auto switch input method
-
-local function Chinese()
-	return "com.sogou.inputmethod.sogou.pinyin"
+-- Input method management
+local function getInputMethodConfig()
+	return {
+		chinese = config.inputMethods.chinese,
+		english = config.inputMethods.english,
+		getForApp = function(appName)
+			local method = config.inputMethods.mapping[appName]
+			return method and config.inputMethods[method]
+		end,
+	}
 end
 
-local function English()
-	return "com.apple.keylayout.US"
-end
+local function createInputMethodSwitcher(imConfig)
+	return function()
+		local focusedWindow = hs.window.focusedWindow()
+		if not focusedWindow then
+			return
+		end
 
-local appWithInputMethods = {
-	{ "WeChat",        Chinese },
-	{ "Obsidian",      Chinese },
-	{ "Bear",          Chinese },
-	{ "Telegram",      Chinese },
-	{ "Ghostty",       English },
-	{ "Alfred",        English },
-	{ "Code",          English },
-	{ "Cursor",        English },
-	{ "Google Chrome", English },
-	{ "Sublime Text",  English },
-	{ "Alacritty",     English },
-	{ "Dash",          English },
-}
+		local appName = focusedWindow:application():name()
+		local targetIM = imConfig.getForApp(appName)
 
--- https://gist.github.com/ibreathebsb/65fae9d742c5ebdb409960bceaf934de
-local function maybeUpdateFocusesInputMethod()
-	-- local ime = English()
-	local ime
-	local focusedApp = hs.window.focusedWindow():application():name()
-	for _, app in pairs(appWithInputMethods) do
-		local appName = app[1]
-		local expectedIme = app[2]
-
-		if focusedApp == appName then
-			ime = expectedIme()
-			break
+		if targetIM and hs.keycodes.currentSourceID() ~= targetIM then
+			hs.keycodes.currentSourceID(targetIM)
 		end
 	end
+end
 
-	if ime ~= nil and hs.keycodes.currentSourceID() ~= ime then
-		hs.keycodes.currentSourceID(ime)
+local function createAppWatcher(switcherFn)
+	return function(appName, eventType, appObject)
+		if eventType == hs.application.watcher.activated or eventType == hs.application.watcher.launched then
+			switcherFn()
+		end
 	end
 end
 
--- local wf = hs.window.filter
--- wf = hs.window.filter
--- wf.ignoreAlways["Safari Web Content"] = true
--- wf.ignoreAlways["com.apple.WebKit.WebContent"] = true
--- wf.ignoreAlways["PaymentAuthorizationUIExtension (Safari)"] = true
--- wf.ignoreAlways["com.apple.PassKit.PaymentAuthorizationUIExtension"] = true
---
--- local function maybeUpdateIMtoEnglishWhenSmallWindow(appName)
--- 	local wfApp = wf.new(false):setAppFilter(appName)
--- 	wfApp:subscribe(wf.windowFocused, function()
--- 		local winSize = hs.window.focusedWindow():size()
--- 		if winSize.h < 100 then
--- 			hs.keycodes.currentSourceID(English())
--- 		else
--- 			maybeUpdateFocusesInputMethod()
--- 		end
--- 	end)
--- end
--- pretty slow, because of `com.apple.WebKit.WebContent`
--- maybeUpdateIMtoEnglishWhenSmallWindow("Bear")
+-- Debug utilities
+local function createDebugReporter()
+	return function()
+		local focusedWindow = hs.window.focusedWindow()
+		if not focusedWindow then
+			return
+		end
 
-local function applicationWatcher(_appName, eventType, appObject)
-	if eventType == hs.application.watcher.activated or eventType == hs.application.watcher.launched then
-		maybeUpdateFocusesInputMethod()
+		local app = focusedWindow:application()
+		local message = string.format(
+			"App path:        %s\nApp name:      %s\nIM source id:  %s",
+			app:path(),
+			app:name(),
+			hs.keycodes.currentSourceID()
+		)
+		hs.alert.show(message)
 	end
 end
 
-appWatcher = hs.application.watcher.new(applicationWatcher)
-appWatcher:start()
+-- Initialize features
+local function initializeFeatures()
+	-- Quick app bindings
+	bindQuickApps(config.quickApps)
 
-hs.hotkey.bind({ "ctrl", "cmd" }, ".", function()
-	hs.alert.show(
-		"App path:        "
-		.. hs.window.focusedWindow():application():path()
-		.. "\n"
-		.. "App name:      "
-		.. hs.window.focusedWindow():application():name()
-		.. "\n"
-		.. "IM source id:  "
-		.. hs.keycodes.currentSourceID()
-	)
-end)
+	-- Input method auto-switching
+	if config.features.autoInputMethod then
+		local imConfig = getInputMethodConfig()
+		local switchInputMethod = createInputMethodSwitcher(imConfig)
+		local watcherCallback = createAppWatcher(switchInputMethod)
 
-hs.alert.show("Hammerspoon, at your service", 3)
+		appWatcher = hs.application.watcher.new(watcherCallback)
+		appWatcher:start()
+	end
+
+	-- Debug info hotkey
+	if config.features.debugInfo then
+		hs.hotkey.bind({ "ctrl", "cmd" }, ".", createDebugReporter())
+	end
+end
+
+-- Application entry point
+local function main()
+	initializeFeatures()
+	hs.alert.show("Hammerspoon, at your service", 3)
+end
+
+-- Execute main function
+main()
