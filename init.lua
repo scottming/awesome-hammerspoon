@@ -119,9 +119,9 @@ end
 -- Custom window layout factory
 local function createCustomLayoutAction(xRatio, yRatio, widthRatio, heightRatio)
 	return function()
-		spoon.WinWin:stash()
 		local win = hs.window.focusedWindow()
 		if win and win:isStandard() then
+			spoon.WinWin:stash() -- Only stash if we have a valid window
 			local screen = win:screen()
 			local frame = screen:frame()
 			local newFrame = {
@@ -287,7 +287,7 @@ local function setupWindowModal()
 		{ key = "L", desc = "Righthalf of Screen", action = createWindowAction("layout", "halfright") },
 		{ key = "K", desc = "Uphalf of Screen", action = createWindowAction("layout", "halfup") },
 		{ key = "J", desc = "Downhalf of Screen", action = createWindowAction("layout", "halfdown") },
-		{ key = "X", desc = "Left Two Thirds", action = createCustomLayoutAction(0, 0, 2 / 3, 1) },
+		{ key = "Z", desc = "Left Two Thirds", action = createCustomLayoutAction(0, 0, 2 / 3, 1) },
 		{ key = "/", desc = "Right One Third", action = createCustomLayoutAction(2 / 3, 0, 1 / 3, 1) },
 
 		-- Corners
