@@ -22,7 +22,7 @@ local config = {
 		{ key = "C", id = "com.google.Chrome" },
 		{ key = "A", name = "Brave Browser" },
 		{ key = "W", name = "Ghostty" },
-		{ key = "I", name = "IntelliJ IDEA" },
+		{ key = "I", name = "Visual Studio Code" },
 		{ key = "G", name = "ChatGPt" },
 		{ key = "T", name = "DataGrip" },
 		{ key = "P", name = "PDF Expert" },
